@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
-import { useRoguelike } from "../../lib/stores/useRoguelike";
-import { GameRenderer } from "../../lib/game/renderer";
+import { useRoguelike } from "./lib/stores/useRoguelike";
+import { GameRenderer } from "./lib/game/renderer";
 
 const GameCanvas = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);

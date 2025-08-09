@@ -1,5 +1,5 @@
-import { useRoguelike } from "../../lib/stores/useRoguelike";
-import { Item } from "../../lib/game/entities";
+import { useRoguelike } from "./lib/stores/useRoguelike";
+import { Item } from "./lib/game/entities";
 import { X, Trash2, Merge, ArrowUpDown, Star, Sword } from "lucide-react";
 import { useState } from "react";
 

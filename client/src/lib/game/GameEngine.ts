@@ -3,7 +3,7 @@ import { DungeonGenerator } from './DungeonGenerator';
 import { findPath, getSimpleDirection } from './pathfinding';
 import { performAttack, gainExperience, getEnemyName } from './combat';
 import { generateRandomItem } from './items';
-import { useRoguelike } from '../stores/useRoguelike';
+// Removed circular import - GameEngine should not import store
 
 export class GameEngine {
   private gameState: GameState | null = null;

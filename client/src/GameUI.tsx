@@ -1,6 +1,6 @@
-import { useRoguelike } from "../../lib/stores/useRoguelike";
-import { useAudio } from "../../lib/stores/useAudio";
-import ProgressBar from "../ui/ProgressBar";
+import { useRoguelike } from "./lib/stores/useRoguelike";
+import { useAudio } from "./lib/stores/useAudio";
+import ProgressBar from "./ProgressBar";
 import { Volume2, VolumeX } from "lucide-react";
 
 const GameUI = () => {
