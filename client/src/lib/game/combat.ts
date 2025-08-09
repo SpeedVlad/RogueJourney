@@ -1,4 +1,4 @@
-import { Player, Enemy } from './entities';
+import { Player, Enemy } from './game-objects';
 import { useAudio } from '../stores/useAudio';
 
 export function calculateDamage(attacker: Player | Enemy, defender: Player | Enemy): number {

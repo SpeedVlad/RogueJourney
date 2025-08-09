@@ -1,4 +1,4 @@
-import { Item } from './entities';
+import { Item } from './game-objects';
 
 export function generateRandomItem(): Item {
   const itemTypes = ['weapon', 'armor', 'aura', 'consumable'] as const;

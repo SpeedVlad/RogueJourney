@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { subscribeWithSelector } from "zustand/middleware";
-import { GameEngine } from "../game/GameEngine";
-import { GameState, Player, Entity, Tile, Message } from "../game/entities";
+import { GameEngine } from "../game/game-engine";
+import { GameState, Player, Entity, Tile, Message } from "../game/game-objects";
 import { useAudio } from "./useAudio";
 
 interface RoguelikeState {

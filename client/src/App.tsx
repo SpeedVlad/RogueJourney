@@ -1,9 +1,9 @@
 import { useEffect, useRef } from "react";
 import { useAudio } from "./lib/stores/useAudio";
 import { useRoguelike } from "./lib/stores/useRoguelike";
-import GameCanvas from "./GameCanvas";
-import GameUI from "./GameUI";
-import Inventory from "./Inventory";
+import GameCanvas from "./game-display";
+import GameUI from "./game-interface";
+import Inventory from "./player-inventory";
 import "@fontsource/inter";
 import "./index.css";
 

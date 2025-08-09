@@ -458,7 +458,7 @@ const Inventory = () => {
                     selectedItems.includes(index) 
                       ? 'bg-purple-900 border-purple-400' 
                       : 'bg-gray-800 hover:bg-gray-700 border-gray-600'
-                  } border ${hoveredItem === index ? 'scale-105 shadow-lg' : ''}`}
+                  } border ${hoveredItem === index ? 'transform shadow-lg' : ''}`}
                 >
                   <div className="flex justify-between items-start">
                     <div className="flex-1">

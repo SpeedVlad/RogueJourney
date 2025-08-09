@@ -1,4 +1,4 @@
-import { Position, Tile } from './entities';
+import { Position, Tile } from './game-objects';
 
 export interface PathNode {
   x: number;

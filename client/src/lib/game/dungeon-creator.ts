@@ -1,4 +1,4 @@
-import { Dungeon, Room, Tile, Position } from './entities';
+import { Dungeon, Room, Tile, Position } from './game-objects';
 import { generateRandomItem } from './items';
 
 export class DungeonGenerator {

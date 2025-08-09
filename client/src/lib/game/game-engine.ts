@@ -1,6 +1,6 @@
-import { GameState, Player, Enemy, Position, Message, Item } from './entities';
-import { DungeonGenerator } from './DungeonGenerator';
-import { findPath, getSimpleDirection } from './pathfinding';
+import { GameState, Player, Enemy, Position, Message, Item } from './game-objects';
+import { DungeonGenerator } from './dungeon-creator';
+import { findPath, getSimpleDirection } from './enemy-movement';
 import { performAttack, gainExperience, getEnemyName } from './combat';
 import { generateRandomItem } from './items';
 // Removed circular import - GameEngine should not import store
@@ -435,10 +435,14 @@ export class GameEngine {
   private generateEnemies(dungeon: any): Enemy[] {
     const enemies: Enemy[] = [];
     const enemyTypes = [
-      { type: 'goblin', symbol: '👽', color: '#00aa00', health: 20, attack: 5, defense: 1, exp: 15 },
-      { type: 'orc', symbol: '👹', color: '#aa0000', health: 35, attack: 8, defense: 2, exp: 25 },
-      { type: 'skeleton', symbol: '💀', color: '#cccccc', health: 15, attack: 6, defense: 0, exp: 20 }
+      { type: 'goblin', symbol: '👽', color: '#00aa00', health: 40, attack: 8, defense: 2, exp: 15 },
+      { type: 'orc', symbol: '👹', color: '#aa0000', health: 70, attack: 12, defense: 4, exp: 25 },
+      { type: 'skeleton', symbol: '💀', color: '#cccccc', health: 30, attack: 10, defense: 1, exp: 20 }
     ];
+
+    // Calculate floor multiplier (2x stats per floor)
+    const currentFloor = this.gameState?.level || 1;
+    const floorMultiplier = Math.pow(2, currentFloor - 1);
 
     // Generate 2-4 enemies per room (excluding first room)
     for (let i = 1; i < dungeon.rooms.length; i++) {
@@ -450,21 +454,27 @@ export class GameEngine {
         const x = room.x + Math.floor(Math.random() * (room.width - 2)) + 1;
         const y = room.y + Math.floor(Math.random() * (room.height - 2)) + 1;
         
+        // Apply floor scaling to enemy stats
+        const scaledHealth = Math.floor(enemyType.health * floorMultiplier);
+        const scaledAttack = Math.floor(enemyType.attack * floorMultiplier);
+        const scaledDefense = Math.floor(enemyType.defense * floorMultiplier);
+        const scaledExp = Math.floor(enemyType.exp * floorMultiplier);
+        
         enemies.push({
           id: `${enemyType.type}_${i}_${j}`,
           x,
           y,
           symbol: enemyType.symbol,
           color: enemyType.color,
-          health: enemyType.health,
-          maxHealth: enemyType.health,
-          attackPower: enemyType.attack,
-          defense: enemyType.defense,
+          health: scaledHealth,
+          maxHealth: scaledHealth,
+          attackPower: scaledAttack,
+          defense: scaledDefense,
           speed: 1,
           lastMoveTime: 0,
           type: enemyType.type as any,
           ai: 'aggressive',
-          experienceValue: enemyType.exp,
+          experienceValue: scaledExp,
           lootTable: []
         });
       }
