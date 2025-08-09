@@ -108,29 +108,22 @@ const Inventory = () => {
   };
 
   const handleAutoMerge = () => {
-    // Merge ALL pairs of same type and rarity
+    // Find the first pair of items that can be merged
     const items = player.inventory;
     let mergedAny = false;
     
-    // Keep merging until no more pairs can be merged
-    while (true) {
-      let foundPair = false;
-      
-      for (let i = 0; i < items.length - 1; i++) {
-        for (let j = i + 1; j < items.length; j++) {
-          if (items[i] && items[j] && 
-              items[i].type === items[j].type && 
-              items[i].rarity === items[j].rarity) {
-            mergeItems(i, j);
-            foundPair = true;
-            mergedAny = true;
-            break;
-          }
+    // Only merge ONE pair at a time to avoid state issues
+    for (let i = 0; i < items.length - 1; i++) {
+      for (let j = i + 1; j < items.length; j++) {
+        if (items[i] && items[j] && 
+            items[i].type === items[j].type && 
+            items[i].rarity === items[j].rarity) {
+          mergeItems(i, j);
+          mergedAny = true;
+          // Exit immediately after one merge to prevent state conflicts
+          return;
         }
-        if (foundPair) break;
       }
-      
-      if (!foundPair) break;
     }
     
     if (!mergedAny) {

@@ -249,16 +249,7 @@ export const useRoguelike = create<RoguelikeState>()(
         return;
       }
 
-      // Check if we have at least 3 items of this type and rarity
-      const matchingItems = gameState.player.inventory.filter(item => 
-        item.type === item1.type && item.rarity === item1.rarity
-      );
-      
-      if (matchingItems.length < 3) {
-        console.log('Need at least 3 items of the same type and rarity to merge');
-        return;
-      }
-
+      // Remove the restrictive 3-item requirement - allow merging any 2 matching items
       const newState = gameEngine.mergeItems(index1, index2);
       set({ gameState: newState });
       
