@@ -4,7 +4,12 @@ import { useAudio } from '../stores/useAudio';
 export function calculateDamage(attacker: Player | Enemy, defender: Player | Enemy): number {
   const baseDamage = attacker.attackPower;
   const defense = defender.defense;
-  const damage = Math.max(1, baseDamage - defense);
+  let damage = Math.max(1, baseDamage - defense);
+  
+  // Make enemies WAY more dangerous - 3x damage multiplier for enemies
+  if (!('level' in attacker)) { // This is an enemy attacking
+    damage = damage * 3;
+  }
   
   // Add some randomness (±25%)
   const variance = 0.25;

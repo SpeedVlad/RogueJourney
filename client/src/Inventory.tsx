@@ -481,16 +481,16 @@ const Inventory = () => {
                         </span>
                       </div>
                       
-                      {/* Hover Stats Expansion */}
+                      {/* Hover Stats Expansion - Compact Version */}
                       {hoveredItem === index && (
-                        <div className="mt-2 p-2 bg-gray-700 rounded border border-gray-500">
-                          <div className="text-sm text-gray-300 mb-1">{item.description}</div>
-                          <div className="flex gap-3 text-sm">
-                            {item.damage && <span className="text-red-400">🔥 +{item.damage} Attack</span>}
-                            {item.defense && <span className="text-blue-400">🛡️ +{item.defense} Defense</span>}
-                            {item.healthBonus && <span className="text-red-400">❤️ +{item.healthBonus} Health</span>}
-                            {item.experienceBonus && <span className="text-green-400">⭐ +{item.experienceBonus}% XP</span>}
-                            {item.healingPower && <span className="text-green-400">❤️ Heals {item.healingPower}</span>}
+                        <div className="mt-1 p-1 bg-gray-800 bg-opacity-80 rounded text-xs">
+                          <div className="text-gray-300 mb-1 truncate">{item.description}</div>
+                          <div className="flex gap-2 text-xs flex-wrap">
+                            {item.damage && <span className="text-red-400">+{item.damage}⚔️</span>}
+                            {item.defense && <span className="text-blue-400">+{item.defense}🛡️</span>}
+                            {item.healthBonus && <span className="text-red-400">+{item.healthBonus}❤️</span>}
+                            {item.experienceBonus && <span className="text-green-400">+{item.experienceBonus}%</span>}
+                            {item.healingPower && <span className="text-green-400">{item.healingPower}💊</span>}
                           </div>
                         </div>
                       )}
