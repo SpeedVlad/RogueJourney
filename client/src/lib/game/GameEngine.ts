@@ -807,6 +807,13 @@ export class GameEngine {
 
   private addMessage(text: string, type: 'info' | 'damage' | 'success' = 'info'): void {
     const message: Message = { text, type, timestamp: Date.now() };
-    useRoguelike.getState().addMessage(text, type);
+    // Add to local game state messages - store will handle UI updates
+    if (this.gameState) {
+      this.gameState.messages = [...this.gameState.messages, message];
+      // Keep only last 50 messages for performance
+      if (this.gameState.messages.length > 50) {
+        this.gameState.messages = this.gameState.messages.slice(-50);
+      }
+    }
   }
 }
