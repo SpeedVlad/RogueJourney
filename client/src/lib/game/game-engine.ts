@@ -147,10 +147,15 @@ export class GameEngine {
       return this.gameState!;
     }
 
-    const { player, dungeon } = this.gameState;
+    const { player, dungeon, enemies } = this.gameState;
     
     // Check if player is on stairs
     if (player.x === dungeon.stairs.x && player.y === dungeon.stairs.y) {
+      // Check if all enemies are defeated
+      if (enemies.length > 0) {
+        this.addMessage(`You must defeat all ${enemies.length} remaining enemies before proceeding to the next floor!`, 'info');
+        return this.gameState;
+      }
       return this.descendLevel();
     } else {
       this.addMessage("You need to find the stairs first! Look for '>' symbol.");

@@ -18,7 +18,7 @@ export interface Item {
   type: 'weapon' | 'armor' | 'aura' | 'consumable';
   symbol: string;
   color: string;
-  rarity: 'common' | 'uncommon' | 'rare' | 'legendary';
+  rarity: 'common' | 'uncommon' | 'rare' | 'legendary' | 'mythic';
   
   // Weapon properties
   damage?: number;
@@ -110,4 +110,5 @@ export interface GameState {
   exploredTiles: Position[];
   messages: Message[];
   showInventory: boolean;
+  popupMessage?: { text: string; timestamp: number };
 }

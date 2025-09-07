@@ -23,6 +23,7 @@ interface RoguelikeState {
   deleteItem: (index: number) => void;
   mergeItems: (index1: number, index2: number) => void;
   unequipItem: (type: 'weapon' | 'armor' | 'aura') => void;
+  useBestHealingPotion: () => void;
 }
 
 export const useRoguelike = create<RoguelikeState>()(
@@ -117,8 +118,11 @@ export const useRoguelike = create<RoguelikeState>()(
       
       // Handle inventory actions (always available)
       switch (key.toLowerCase()) {
-        case 'i':  // Toggle inventory
+        case 'c':  // Toggle inventory
           get().toggleInventory();
+          return;
+        case 'shift':  // Use best healing potion
+          get().useBestHealingPotion();
           return;
         case 'escape':
           get().closeInventory();
@@ -164,8 +168,8 @@ export const useRoguelike = create<RoguelikeState>()(
         const messages = [...state.gameState.messages, newMessage];
         
         // Keep only last 50 messages
-        if (messages.length > 50) {
-          messages.splice(0, messages.length - 50);
+        if (messages.length > 100) {
+          messages.splice(0, messages.length - 100);
         }
         
         return {
@@ -268,6 +272,31 @@ export const useRoguelike = create<RoguelikeState>()(
         const audio = useAudio.getState();
         audio.playSuccess();
       }
+    },
+
+    useBestHealingPotion: () => {
+      const { gameEngine, gameState } = get();
+      if (!gameEngine || !gameState) return;
+
+      // Find all healing potions
+      const healingPotions = gameState.player.inventory
+        .map((item, index) => ({ item, index }))
+        .filter(({ item }) => item.type === 'consumable' && item.healingPower && item.healingPower > 0);
+
+      if (healingPotions.length === 0) {
+        // Show popup message for 3 seconds
+        gameEngine.addMessage("No healing potions in inventory!", 'info');
+        return;
+      }
+
+      // Find the best healing potion (highest healing power)
+      const bestPotion = healingPotions.reduce((best, current) => 
+        (current.item.healingPower || 0) > (best.item.healingPower || 0) ? current : best
+      );
+
+      // Use the best healing potion
+      const newState = gameEngine.useItem(bestPotion.index);
+      set({ gameState: newState });
     }
   }))
 );

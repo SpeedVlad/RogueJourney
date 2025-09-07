@@ -1,5 +1,5 @@
 import { useRoguelike } from "./lib/stores/useRoguelike";
-import { Item } from "./lib/game/entities";
+import { Item } from "./lib/game/game-objects";
 import { X, Trash2, Merge, ArrowUpDown, Star, Sword } from "lucide-react";
 import { useState } from "react";
 
@@ -93,7 +93,7 @@ const Inventory = () => {
     
     return itemsWithIndex.sort((a, b) => {
       if (sortBy === 'rarity') {
-        const rarityOrder = { 'legendary': 4, 'rare': 3, 'uncommon': 2, 'common': 1 };
+        const rarityOrder = { 'mythic': 5, 'legendary': 4, 'rare': 3, 'uncommon': 2, 'common': 1 };
         return (rarityOrder[b.item.rarity as keyof typeof rarityOrder] || 0) - 
                (rarityOrder[a.item.rarity as keyof typeof rarityOrder] || 0);
       } else if (sortBy === 'enhancement') {
@@ -161,7 +161,7 @@ const Inventory = () => {
         if (currentLevel > bestLevel) return current;
         
         if (currentLevel === bestLevel) {
-          const rarityOrder = { 'legendary': 4, 'rare': 3, 'uncommon': 2, 'common': 1 };
+          const rarityOrder = { 'mythic': 5, 'legendary': 4, 'rare': 3, 'uncommon': 2, 'common': 1 };
           const bestRarity = rarityOrder[best.rarity as keyof typeof rarityOrder] || 0;
           const currentRarity = rarityOrder[current.rarity as keyof typeof rarityOrder] || 0;
           
@@ -217,7 +217,7 @@ const Inventory = () => {
 
   return (
     <div className="absolute inset-0 bg-black bg-opacity-80 flex items-center justify-center z-40">
-      <div className="bg-gray-900 border border-gray-600 rounded-lg p-6 max-w-6xl w-full mx-4 max-h-[80vh] overflow-y-auto">
+      <div className="bg-gray-900 border border-gray-600 rounded-lg p-6 w-[800px] h-[600px] overflow-y-auto fixed-inventory">
         {/* Header */}
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-2xl font-bold text-white">Inventory</h2>
@@ -254,12 +254,6 @@ const Inventory = () => {
             </div>
             
             {/* Action Buttons */}
-            <button
-              onClick={handleEquipBest}
-              className="px-2 py-1 bg-blue-600 text-white rounded hover:bg-blue-700 text-xs"
-            >
-              Equip Best
-            </button>
             {canMergeItems() && (
               <button
                 onClick={handleAutoMerge}
@@ -341,16 +335,17 @@ const Inventory = () => {
                         {getEnhancementRank(player.weapon)!.text}
                       </span>
                     )}
-                    {player.weapon.damage && <span className="text-red-400">+{player.weapon.damage}</span>}
-                    <span className={`text-xs px-2 py-1 rounded ${
-                      player.weapon.rarity === 'legendary' ? 'bg-orange-600' :
-                      player.weapon.rarity === 'rare' ? 'bg-purple-600' :
-                      player.weapon.rarity === 'uncommon' ? 'bg-blue-600' :
-                      'bg-gray-600'
-                    }`}>
-                      {player.weapon.rarity}
-                    </span>
+                    <span className="text-red-400">+{player.weapon.damage}🔥</span>
                   </div>
+                  <span className={`text-xs px-2 py-1 rounded ${
+                    player.weapon.rarity === 'mythic' ? 'bg-red-600' :
+                    player.weapon.rarity === 'legendary' ? 'bg-orange-600' :
+                    player.weapon.rarity === 'rare' ? 'bg-purple-600' :
+                    player.weapon.rarity === 'uncommon' ? 'bg-blue-600' :
+                    'bg-gray-600'
+                  }`}>
+                    {player.weapon.rarity}
+                  </span>
                   <div className="text-sm text-gray-300">{player.weapon.description}</div>
                   <button
                     onClick={() => unequipItem('weapon')}
@@ -375,16 +370,17 @@ const Inventory = () => {
                         {getEnhancementRank(player.armor)!.text}
                       </span>
                     )}
-                    {player.armor.defense && <span className="text-blue-400">+{player.armor.defense}</span>}
-                    <span className={`text-xs px-2 py-1 rounded ${
-                      player.armor.rarity === 'legendary' ? 'bg-orange-600' :
-                      player.armor.rarity === 'rare' ? 'bg-purple-600' :
-                      player.armor.rarity === 'uncommon' ? 'bg-blue-600' :
-                      'bg-gray-600'
-                    }`}>
-                      {player.armor.rarity}
-                    </span>
+                    <span className="text-blue-400">+{player.armor.defense}🛡️</span>
                   </div>
+                  <span className={`text-xs px-2 py-1 rounded ${
+                    player.armor.rarity === 'mythic' ? 'bg-red-600' :
+                    player.armor.rarity === 'legendary' ? 'bg-orange-600' :
+                    player.armor.rarity === 'rare' ? 'bg-purple-600' :
+                    player.armor.rarity === 'uncommon' ? 'bg-blue-600' :
+                    'bg-gray-600'
+                  }`}>
+                    {player.armor.rarity}
+                  </span>
                   <div className="text-sm text-gray-300">{player.armor.description}</div>
                   <button
                     onClick={() => unequipItem('armor')}
@@ -410,18 +406,19 @@ const Inventory = () => {
                       </span>
                     )}
                     <div className="flex gap-1">
-                      {player.aura.healthBonus && <span className="text-red-400">+{player.aura.healthBonus}❤️</span>}
+                      {<span className="text-red-400">+{player.aura.healthBonus}❤️</span>}
                       {player.aura.experienceBonus && <span className="text-green-400">+{player.aura.experienceBonus}%XP</span>}
                     </div>
-                    <span className={`text-xs px-2 py-1 rounded ${
-                      player.aura.rarity === 'legendary' ? 'bg-orange-600' :
-                      player.aura.rarity === 'rare' ? 'bg-purple-600' :
-                      player.aura.rarity === 'uncommon' ? 'bg-blue-600' :
-                      'bg-gray-600'
-                    }`}>
-                      {player.aura.rarity}
-                    </span>
                   </div>
+                  <span className={`text-xs px-2 py-1 rounded ${
+                    player.aura.rarity === 'mythic' ? 'bg-red-600' :
+                    player.aura.rarity === 'legendary' ? 'bg-orange-600' :
+                    player.aura.rarity === 'rare' ? 'bg-purple-600' :
+                    player.aura.rarity === 'uncommon' ? 'bg-blue-600' :
+                    'bg-gray-600'
+                  }`}>
+                    {player.aura.rarity}
+                  </span>
                   <div className="text-sm text-gray-300">{player.aura.description}</div>
                   <button
                     onClick={() => unequipItem('aura')}
@@ -462,7 +459,7 @@ const Inventory = () => {
                 >
                   <div className="flex justify-between items-start">
                     <div className="flex-1">
-                      <div className="font-semibold text-white flex items-center gap-2">
+                      <div className="font-semibold text-white flex items-center gap-2 flex-wrap">
                         <span>{getItemTypeIcon(item.type)}</span>
                         <span>{item.symbol}</span>
                         <span>{formatItemName(item)}</span>
@@ -472,6 +469,7 @@ const Inventory = () => {
                           </span>
                         )}
                         <span className={`text-xs px-2 py-1 rounded ${
+                          item.rarity === 'mythic' ? 'bg-red-600' :
                           item.rarity === 'legendary' ? 'bg-orange-600' :
                           item.rarity === 'rare' ? 'bg-purple-600' :
                           item.rarity === 'uncommon' ? 'bg-blue-600' :
@@ -479,20 +477,22 @@ const Inventory = () => {
                         }`}>
                           {item.rarity}
                         </span>
-                      </div>
-                      
-                      {/* Hover Stats Expansion - Compact Version */}
-                      {hoveredItem === index && (
-                        <div className="mt-1 p-1 bg-gray-800 bg-opacity-80 rounded text-xs">
-                          <div className="text-gray-300 mb-1 truncate">{item.description}</div>
-                          <div className="flex gap-2 text-xs flex-wrap">
+                        
+                        {/* Hover Stats Next to Name - Inline */}
+                        {hoveredItem === index && (
+                          <div className="flex gap-2 text-xs">
                             {item.damage && <span className="text-red-400">+{item.damage}⚔️</span>}
                             {item.defense && <span className="text-blue-400">+{item.defense}🛡️</span>}
                             {item.healthBonus && <span className="text-red-400">+{item.healthBonus}❤️</span>}
                             {item.experienceBonus && <span className="text-green-400">+{item.experienceBonus}%</span>}
                             {item.healingPower && <span className="text-green-400">{item.healingPower}💊</span>}
                           </div>
-                        </div>
+                        )}
+                      </div>
+                      
+                      {/* Description only when hovering */}
+                      {hoveredItem === index && (
+                        <div className="text-gray-300 text-xs mt-1 truncate">{item.description}</div>
                       )}
 
                     </div>
@@ -525,7 +525,7 @@ const Inventory = () => {
 
         {/* Controls */}
         <div className="mt-6 text-sm text-gray-400 text-center">
-          Click items to select • Use action buttons • Select 2 items to merge • Press I to close
+          Click items to select • Use action buttons • Select 3 items to merge 2 random (out of these 3) • Press C to close
         </div>
       </div>
     </div>

@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useRef, useEffect } from "react";
 import { useRoguelike } from "./lib/stores/useRoguelike";
 import { GameRenderer } from "./lib/game/renderer";
 

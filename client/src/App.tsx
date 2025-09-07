@@ -72,9 +72,10 @@ function App() {
             <div className="text-left space-y-2 mb-6">
               <p><span className="text-yellow-400">WASD/Arrow Keys:</span> Move</p>
               <p><span className="text-yellow-400">Space:</span> Attack</p>
-              <p><span className="text-yellow-400">I:</span> Toggle Inventory</p>
+              <p><span className="text-yellow-400">C:</span> Toggle Inventory</p>
               <p><span className="text-yellow-400">E:</span> Use Stairs</p>
               <p><span className="text-yellow-400">R:</span> Restart Game</p>
+              <p><span className="text-yellow-400">Shift:</span> Use healing posion</p>
             </div>
             <button
               className="px-8 py-4 bg-green-600 hover:bg-green-700 text-white rounded-lg font-semibold transition-colors"
