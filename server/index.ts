@@ -67,3 +67,4 @@ app.use((req: Request, res: Response, next: NextFunction) => {
   }, () => {
     log(`serving on port ${port}`);
   });
+})();
