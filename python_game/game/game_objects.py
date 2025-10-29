@@ -65,9 +65,9 @@ class Player(Entity):
 
 @dataclass
 class Enemy(Entity):
-    type: Literal['goblin', 'orc', 'skeleton', 'dragon']
-    ai: Literal['passive', 'aggressive', 'guard']
-    experience_value: int
+    type: Literal['goblin', 'orc', 'skeleton', 'dragon'] = 'goblin'
+    ai: Literal['passive', 'aggressive', 'guard'] = 'aggressive'
+    experience_value: int = 0
     loot_table: List[Item] = field(default_factory=list)
 
 @dataclass
